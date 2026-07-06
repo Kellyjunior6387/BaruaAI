@@ -1,14 +1,22 @@
-export default function Home() {
+import { createClient } from '@/lib/supabase/server';
+import Navbar from '@/components/landing/Navbar';
+import LandingPageClient from './LandingPageClient';
+
+export default async function Home() {
+  const supabase = createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  const isLoggedIn = !!user;
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center p-24 bg-background text-foreground">
-      <div className="text-center space-y-2">
-        <h1 className="text-5xl font-extrabold tracking-tight text-primary">
-          Barua
-        </h1>
-        <p className="text-xl text-muted-foreground font-medium">
-          coming soon
-        </p>
-      </div>
+    <main className="min-h-screen bg-white">
+      {/* Dynamic Header Navbar */}
+      <Navbar isLoggedIn={isLoggedIn} />
+
+      {/* Interactive Marketing Page Layout */}
+      <LandingPageClient />
     </main>
   );
 }

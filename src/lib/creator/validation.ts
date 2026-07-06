@@ -38,6 +38,13 @@ export function validateStep(step: number, state: CreatorState): ValidationResul
 
     case 4: {
       const memories = state.memories;
+      const hasAnyTitle = memories.some((mem) => mem.title.trim() !== '');
+
+      if (!hasAnyTitle) {
+        // Completely optional
+        return { valid: true };
+      }
+
       if (memories.length < 2) {
         return { valid: false, error: "Please write at least 2 memories." };
       }

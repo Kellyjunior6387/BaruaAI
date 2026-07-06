@@ -1,16 +1,21 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-inter",
-});
-
 export const metadata: Metadata = {
-  title: "Barua",
+  title: {
+    default: 'Barua — Say it better than words',
+    template: '%s · Barua',
+  },
   description:
-    "Create personalised interactive experiences for the people you care about",
+    "Turn your feelings into a personalised interactive experience. For the person you've been thinking about.",
+  keywords: ['ask someone out', 'personalised experience', 'romantic gesture', 'Nairobi', 'Kenya'],
+  openGraph: {
+    title: 'Barua — Say it better than words',
+    description: 'Turn your feelings into a personalised interactive experience.',
+    siteName: 'Barua',
+    locale: 'en_KE',
+    type: 'website',
+  },
 };
 
 export default function RootLayout({
@@ -20,7 +25,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.variable} font-sans antialiased`}>
+      <body className="font-sans antialiased">
         {children}
       </body>
     </html>
