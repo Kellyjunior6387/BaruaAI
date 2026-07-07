@@ -2,8 +2,6 @@
 
 import { createClient as createSupabaseAdminClient } from '@supabase/supabase-js';
 import { createExperience as dbCreateExperience, updateExperience as dbUpdateExperience } from '../../lib/supabase/queries';
-import { createClient } from '../../lib/supabase/server';
-import { sendExperienceCreated } from '../../lib/resend/sendEmails';
 import { revalidatePath } from 'next/cache';
 import type { Experience } from '../../types';
 
