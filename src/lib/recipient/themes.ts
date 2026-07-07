@@ -12,13 +12,13 @@ export interface ThemeConfig {
 
 export const THEMES: Record<'romantic' | 'playful' | 'cinematic', ThemeConfig> = {
   romantic: {
-    bg: 'bg-rose-50/60',
-    text: 'text-rose-950',
+    bg: 'bg-rose-50/50',
+    text: 'text-gray-900',
     accent: 'text-[#D4537E]',
     accentBg: 'bg-[#D4537E]',
     border: 'border-rose-100',
     cardBg: 'bg-white',
-    font: 'font-serif',
+    font: 'font-sans',
     buttonBg: 'bg-[#D4537E] text-white hover:bg-[#c3436d]',
     buttonDisabled: 'bg-rose-100 text-rose-300 cursor-not-allowed',
   },

@@ -1,7 +1,8 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Check, Copy, Share2, Trash2 } from 'lucide-react';
+import { Check, Copy, Share2, Trash2, Edit } from 'lucide-react';
+import Link from 'next/link';
 import { deleteExperienceAction } from '@/app/dashboard/actions';
 
 interface ActionsProps {
@@ -93,6 +94,14 @@ export default function ExperienceDetailActions({
             {copied ? <Check size={14} /> : <Copy size={14} />}
             <span>{copied ? 'Copied to Clipboard!' : 'Copy Link'}</span>
           </button>
+
+          <Link
+            href={`/dashboard/${experienceId}/edit`}
+            className="w-full border border-gray-200 text-gray-700 hover:bg-gray-50 rounded-xl py-3 font-semibold text-xs transition-all flex items-center justify-center gap-1.5"
+          >
+            <Edit size={14} />
+            <span>Edit Barua Options</span>
+          </Link>
 
           <a
             href={whatsappUrl}

@@ -17,9 +17,9 @@ export function validateStep(step: number, state: CreatorState): ValidationResul
     }
 
     case 2: {
-      const hasTheme = ['romantic', 'playful', 'cinematic'].includes(state.theme);
+      const hasTheme = state.theme === 'romantic';
       if (!hasTheme) {
-        return { valid: false, error: "Please choose a theme." };
+        return { valid: false, error: "Please select the Romantic theme." };
       }
       return { valid: true };
     }
@@ -76,10 +76,11 @@ export function validateStep(step: number, state: CreatorState): ValidationResul
       // 2. At least 1 activity per selected category
       for (const cat of state.date_categories) {
         const option = state.date_options.find((o) => o.category === cat);
-        if (!option || option.activities.length === 0) {
+        const nonVal = option?.activities.filter((a) => a.trim() !== '') || [];
+        if (!option || nonVal.length === 0) {
           return {
             valid: false,
-            error: `Please choose at least one activity under the ${cat} category.`,
+            error: `Please enter at least one date activity option under the ${cat} category.`,
           };
         }
       }

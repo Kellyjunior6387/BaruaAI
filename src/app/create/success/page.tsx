@@ -3,6 +3,7 @@
 import React, { Suspense, useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { Check, Copy, Share2 } from 'lucide-react';
+import Link from 'next/link';
 
 function SuccessPageContent() {
   const searchParams = useSearchParams();
@@ -93,6 +94,13 @@ function SuccessPageContent() {
           >
             Preview your experience &rarr;
           </a>
+
+          <Link
+            href="/dashboard"
+            className="text-xs font-semibold text-gray-500 hover:text-gray-700 hover:underline"
+          >
+            Go to Dashboard
+          </Link>
 
           <button
             type="button"
