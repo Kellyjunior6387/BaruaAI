@@ -3,6 +3,8 @@
 import React, { createContext, useContext, useReducer, ReactNode } from 'react';
 
 export interface CreatorState {
+  id?: string;
+  slug?: string;
   recipient_name: string;
   your_name: string;
   theme: 'romantic' | 'playful' | 'cinematic' | '';
@@ -20,19 +22,20 @@ export interface CreatorState {
 export type CreatorAction =
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   | { type: 'SET_FIELD'; payload: { field: keyof CreatorState; value: any } }
+  | { type: 'LOAD_EXPERIENCE'; payload: CreatorState }
   | { type: 'SET_BEAT'; payload: { index: number; value: string } }
   | { type: 'ADD_BEAT' }
   | { type: 'SET_MEMORY'; payload: { index: number; title: string; photo_path?: string } }
   | { type: 'ADD_MEMORY' }
   | { type: 'TOGGLE_CATEGORY'; payload: { category: 'outdoor' | 'food' | 'indoor' } }
-  | { type: 'TOGGLE_ACTIVITY'; payload: { category: string; activity: string } }
+  | { type: 'SET_ACTIVITY_AT_INDEX'; payload: { category: string; index: number; value: string } }
   | { type: 'SET_DATE'; payload: { index: number; value: string } }
   | { type: 'RESET' };
 
 export const initialState: CreatorState = {
   recipient_name: '',
   your_name: '',
-  theme: '',
+  theme: 'romantic',
   story_beats: ['', '', ''], // min 3 beats
   reflection: '',
   ask_line: 'Would you let me take you on a proper date?',
@@ -50,6 +53,11 @@ function creatorReducer(state: CreatorState, action: CreatorAction): CreatorStat
       return {
         ...state,
         [action.payload.field]: action.payload.value,
+      };
+
+    case 'LOAD_EXPERIENCE':
+      return {
+        ...action.payload,
       };
 
     case 'SET_BEAT': {
@@ -108,14 +116,16 @@ function creatorReducer(state: CreatorState, action: CreatorAction): CreatorStat
       };
     }
 
-    case 'TOGGLE_ACTIVITY': {
-      const { category, activity } = action.payload;
+    case 'SET_ACTIVITY_AT_INDEX': {
+      const { category, index, value } = action.payload;
       const nextOptions = state.date_options.map((option) => {
         if (option.category === category) {
-          const exists = option.activities.includes(activity);
-          const nextActs = exists
-            ? option.activities.filter((a) => a !== activity)
-            : [...option.activities, activity];
+          const nextActs = [...option.activities];
+          // Ensure slots up to index exist
+          while (nextActs.length <= index) {
+            nextActs.push('');
+          }
+          nextActs[index] = value;
           return {
             ...option,
             activities: nextActs,

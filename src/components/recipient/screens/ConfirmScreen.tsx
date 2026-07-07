@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import type { Experience } from '@/types';
 import type { ThemeConfig } from '@/lib/recipient/themes';
+import { formatDatePretty } from '@/lib/utils';
 
 interface ScreenProps {
   experience: Experience;
@@ -92,7 +93,7 @@ export default function ConfirmScreen({
             <span className="text-xl select-none">📅</span>
             <div className="space-y-0.5">
               <span className="text-xs font-semibold uppercase opacity-60 tracking-wider">Date</span>
-              <p className="text-base font-semibold">{selectedDate}</p>
+              <p className="text-base font-semibold">{formatDatePretty(selectedDate)}</p>
             </div>
           </div>
         </div>

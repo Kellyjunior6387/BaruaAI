@@ -27,28 +27,16 @@ export default function ThemeStep({ onContinue, onBack }: StepProps) {
         <p className="text-xs text-gray-500">Pick the visual and emotional vibe of the experience.</p>
       </div>
 
-      <div className="grid grid-cols-3 gap-3 w-full">
-        <ThemeCard
-          emoji="🌹"
-          name="Romantic"
-          description="Warm, soft, intimate"
-          selected={state.theme === 'romantic'}
-          onClick={() => handleSelectTheme('romantic')}
-        />
-        <ThemeCard
-          emoji="🎉"
-          name="Playful"
-          description="Fun, light, cheeky"
-          selected={state.theme === 'playful'}
-          onClick={() => handleSelectTheme('playful')}
-        />
-        <ThemeCard
-          emoji="🎬"
-          name="Cinematic"
-          description="Bold, dramatic, epic"
-          selected={state.theme === 'cinematic'}
-          onClick={() => handleSelectTheme('cinematic')}
-        />
+      <div className="flex justify-center w-full">
+        <div className="max-w-xs w-full">
+          <ThemeCard
+            emoji="🌹"
+            name="Romantic"
+            description="Warm, soft, intimate"
+            selected={state.theme === 'romantic'}
+            onClick={() => handleSelectTheme('romantic')}
+          />
+        </div>
       </div>
 
       <BackNextBar

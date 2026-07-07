@@ -2,6 +2,7 @@
 
 import type { Experience } from '@/types';
 import type { ThemeConfig } from '@/lib/recipient/themes';
+import { formatDatePretty } from '@/lib/utils';
 
 interface ScreenProps {
   experience: Experience;
@@ -64,7 +65,7 @@ export default function DatePickerScreen({
                   }`}
                 >
                   <span className="text-base font-semibold">
-                    {dateStr}
+                    {formatDatePretty(dateStr)}
                   </span>
                 </button>
               );

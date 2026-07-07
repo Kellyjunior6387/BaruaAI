@@ -80,7 +80,7 @@ export async function sendExperienceCreated(params: SendExperienceCreatedParams)
     );
 
     const { data, error } = await resend.emails.send({
-      from: 'Barua <notifications@barua.app>',
+      from: 'onboarding@resend.dev',
       to,
       subject: `Your Barua for ${recipientName} is ready 💌`,
       html,

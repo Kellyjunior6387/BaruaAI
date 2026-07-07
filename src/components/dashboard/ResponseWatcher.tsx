@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Heart, Compass, Calendar, Clock } from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
 import { relativeTime } from '@/lib/utils/relativeTime';
+import { formatDatePretty } from '@/lib/utils';
 
 interface ResponseWatcherProps {
   experienceId: string;
@@ -112,7 +113,7 @@ export default function ResponseWatcher({
                   Locked Date
                 </span>
                 <p className="text-sm font-bold text-gray-800 leading-snug">
-                  {response.chosen_date}
+                  {formatDatePretty(response.chosen_date)}
                 </p>
               </div>
             </div>

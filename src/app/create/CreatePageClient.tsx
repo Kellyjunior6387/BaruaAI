@@ -1,9 +1,10 @@
 'use client';
 
-import React, { Suspense, useState } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import React, { Suspense, useState, useEffect } from 'react';
+import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 import { useCreatorStore } from '../../lib/creator/store';
-import { saveExperienceAction } from './actions';
+import { saveExperienceAction, updateExperienceAction } from './actions';
+import type { Experience } from '../../types';
 
 // Step components
 import BasicsStep from '../../components/creator/BasicsStep';
@@ -16,21 +17,48 @@ import ClosingStep from '../../components/creator/ClosingStep';
 
 interface CreatePageClientProps {
   userId: string;
+  initialExperience?: Experience;
 }
 
-function CreatorStepRouter({ userId }: CreatePageClientProps) {
+function CreatorStepRouter({ userId, initialExperience }: CreatePageClientProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const { state } = useCreatorStore();
+  const pathname = usePathname();
+  const { state, dispatch } = useCreatorStore();
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const stepParam = searchParams.get('step');
   const currentStep = Math.min(7, Math.max(1, parseInt(stepParam || '1', 10)));
 
+  // Sync initial experience into creator store once when loaded
+  useEffect(() => {
+    if (initialExperience && state.id !== initialExperience.id) {
+      dispatch({
+        type: 'LOAD_EXPERIENCE',
+        payload: {
+          id: initialExperience.id,
+          slug: initialExperience.slug,
+          recipient_name: initialExperience.recipient_name,
+          your_name: initialExperience.your_name,
+          theme: initialExperience.theme,
+          story_beats: initialExperience.story_beats,
+          reflection: initialExperience.reflection || '',
+          ask_line: initialExperience.ask_line || '',
+          handover_note: initialExperience.handover_note || '',
+          memories: initialExperience.memories || [],
+          date_categories: initialExperience.date_categories || [],
+          date_options: initialExperience.date_options || [],
+          proposed_dates: initialExperience.proposed_dates || ['', '', ''],
+          closing_message: initialExperience.closing_message || '',
+        },
+      });
+    }
+  }, [initialExperience, state.id, dispatch]);
+
   const handleNext = () => {
     if (currentStep < 7) {
-      router.push(`/create?step=${currentStep + 1}`);
+      router.push(`${pathname}?step=${currentStep + 1}`);
     } else {
       handleSubmit();
     }
@@ -38,7 +66,7 @@ function CreatorStepRouter({ userId }: CreatePageClientProps) {
 
   const handleBack = () => {
     if (currentStep > 1) {
-      router.push(`/create?step=${currentStep - 1}`);
+      router.push(`${pathname}?step=${currentStep - 1}`);
     }
   };
 
@@ -47,13 +75,18 @@ function CreatorStepRouter({ userId }: CreatePageClientProps) {
     setError(null);
 
     try {
-      // 1. Generate unique slug
-      const randomString = Math.random().toString(36).substring(2, 6);
-      const cleanRecipient = state.recipient_name
-        .toLowerCase()
-        .replace(/[^a-z0-9]+/g, '-')
-        .replace(/^-+|-+$/g, '');
-      const slug = `${cleanRecipient || 'experience'}-${randomString}`;
+      const isEditing = !!state.id;
+      let slug = state.slug || '';
+
+      if (!isEditing) {
+        // 1. Generate unique slug if not editing
+        const randomString = Math.random().toString(36).substring(2, 6);
+        const cleanRecipient = state.recipient_name
+          .toLowerCase()
+          .replace(/[^a-z0-9]+/g, '-')
+          .replace(/^-+|-+$/g, '');
+        slug = `${cleanRecipient || 'experience'}-${randomString}`;
+      }
 
       // 2. Prepare payload matching Experience model
       const payload = {
@@ -62,7 +95,7 @@ function CreatorStepRouter({ userId }: CreatePageClientProps) {
         recipient_name: state.recipient_name,
         your_name: state.your_name,
         theme: state.theme || 'romantic',
-        tier: 'free' as const,
+        tier: (initialExperience?.tier || 'free') as 'free' | 'premium',
         status: 'active' as const,
         story_beats: state.story_beats.filter((beat) => beat.trim() !== ''),
         reflection: state.reflection,
@@ -75,11 +108,21 @@ function CreatorStepRouter({ userId }: CreatePageClientProps) {
         closing_message: state.closing_message,
       };
 
-      // 3. Save via Server Action
-      const result = await saveExperienceAction(payload);
+      let result;
+      if (isEditing && state.id) {
+        // 3. Update existing experience
+        result = await updateExperienceAction(state.id, payload);
+      } else {
+        // 3. Save new experience via Server Action
+        result = await saveExperienceAction(payload);
+      }
       
       if (result && result.slug) {
-        router.push(`/create/success?slug=${result.slug}`);
+        if (isEditing) {
+          router.push(`/dashboard/${result.id}`);
+        } else {
+          router.push(`/create/success?slug=${result.slug}`);
+        }
       } else {
         throw new Error('Failed to save experience: Invalid result');
       }
@@ -135,7 +178,7 @@ function CreatorStepRouter({ userId }: CreatePageClientProps) {
   }
 }
 
-export default function CreatePageClient({ userId }: CreatePageClientProps) {
+export default function CreatePageClient({ userId, initialExperience }: CreatePageClientProps) {
   return (
     <Suspense
       fallback={
@@ -144,7 +187,7 @@ export default function CreatePageClient({ userId }: CreatePageClientProps) {
         </div>
       }
     >
-      <CreatorStepRouter userId={userId} />
+      <CreatorStepRouter userId={userId} initialExperience={initialExperience} />
     </Suspense>
   );
 }
