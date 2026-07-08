@@ -4,6 +4,7 @@ import React, { Suspense } from 'react';
 import { CreatorStoreProvider } from '@/lib/creator/store';
 import { useSearchParams } from 'next/navigation';
 import ProgressBar from '@/components/ui/ProgressBar';
+import CreatorNavbar from '@/components/ui/CreatorNavbar';
 
 const stepNames = [
   'Basics',
@@ -39,6 +40,7 @@ export default function EditExperienceLayout({ children }: { children: React.Rea
   return (
     <CreatorStoreProvider>
       <div className="min-h-screen bg-gray-50 flex flex-col w-full">
+        <CreatorNavbar />
         <Suspense fallback={<div className="h-1.5 w-full bg-gray-100" />}>
           <CreatorHeader />
         </Suspense>
