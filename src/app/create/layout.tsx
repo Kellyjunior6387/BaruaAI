@@ -2,8 +2,9 @@
 
 import React, { Suspense } from 'react';
 import { CreatorStoreProvider } from '../../lib/creator/store';
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams, usePathname } from 'next/navigation';
 import ProgressBar from '../../components/ui/ProgressBar';
+import CreatorNavbar from '../../components/ui/CreatorNavbar';
 
 const stepNames = [
   'Basics',
@@ -36,12 +37,18 @@ function CreatorHeader() {
 }
 
 export default function CreatorLayout({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname();
+  const isSuccessPage = pathname === '/create/success';
+
   return (
     <CreatorStoreProvider>
       <div className="min-h-screen bg-gray-50 flex flex-col">
-        <Suspense fallback={<div className="h-1.5 w-full bg-gray-100" />}>
-          <CreatorHeader />
-        </Suspense>
+        <CreatorNavbar />
+        {!isSuccessPage && (
+          <Suspense fallback={<div className="h-1.5 w-full bg-gray-100" />}>
+            <CreatorHeader />
+          </Suspense>
+        )}
         <div className="flex-1 flex items-center justify-center p-4">
           {children}
         </div>
