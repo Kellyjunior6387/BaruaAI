@@ -13,9 +13,7 @@ interface ScreenProps {
 
 const LINES = [
   "So...",
-  "I've been thinking.",
-  "We've somehow done everything...",
-  "...except one thing.",
+  "I've been thinking to ask you something.",
 ];
 
 export default function BuildUpScreen({ theme, onNext }: ScreenProps) {

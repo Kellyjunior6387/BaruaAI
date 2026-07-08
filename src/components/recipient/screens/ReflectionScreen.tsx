@@ -26,13 +26,12 @@ export default function ReflectionScreen({ experience, theme, onNext }: ScreenPr
       <div className="w-full max-w-[520px] text-center space-y-8 flex flex-col justify-between py-12 min-h-[50vh]">
         <div className="flex-1 flex flex-col justify-center space-y-6">
           <span className={`text-sm font-semibold tracking-wider uppercase opacity-80 ${theme.accent}`}>
-            A thought
           </span>
-          
+
           <blockquote className={`text-lg sm:text-xl italic leading-relaxed font-medium md:px-4 ${theme.font}`}>
             &ldquo;{experience.reflection}&rdquo;
           </blockquote>
-          
+
           <cite className="block text-sm font-semibold not-italic opacity-70">
             — {experience.your_name}
           </cite>
