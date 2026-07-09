@@ -28,7 +28,7 @@ export default function ClosingScreen({ experience, theme }: ScreenProps) {
         >
           &ldquo;{closingMessage}&rdquo;
         </motion.p>
-        
+
         <motion.cite
           initial={{ opacity: 0 }}
           animate={{ opacity: 0.8 }}
@@ -56,7 +56,7 @@ export default function ClosingScreen({ experience, theme }: ScreenProps) {
             rel="noopener noreferrer"
             className="block text-xs underline opacity-80 hover:opacity-100 transition-opacity"
           >
-            Create your own at barua.app
+            Create your own at barua.me
           </a>
         )}
       </motion.div>

@@ -45,7 +45,7 @@ export async function sendResponseNotification({
     );
 
     const { data, error } = await resend.emails.send({
-      from: 'onboarding@resend.dev',
+      from: 'hello@barua.me',
       to,
       subject: `💌 ${recipientName} responded to your Barua`,
       html,
