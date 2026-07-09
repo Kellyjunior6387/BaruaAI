@@ -9,7 +9,7 @@ function SuccessPageContent() {
   const searchParams = useSearchParams();
   const slug = searchParams.get('slug') || '';
   const [copied, setCopied] = useState(false);
-  const [origin, setOrigin] = useState('https://barua.app');
+  const [origin, setOrigin] = useState('https://barua.me');
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -18,7 +18,7 @@ function SuccessPageContent() {
   }, []);
 
   const shareLink = `${origin}/for/${slug}`;
-  const displayLink = `barua.app/for/${slug}`;
+  const displayLink = `barua.me/for/${slug}`;
 
   const handleCopy = async () => {
     try {
