@@ -17,7 +17,7 @@ export default function ExperienceDetailActions({
   recipientName,
 }: ActionsProps) {
   const [copied, setCopied] = useState(false);
-  const [origin, setOrigin] = useState('https://barua.app');
+  const [origin, setOrigin] = useState('https://barua.me');
   const [isDeleting, setIsDeleting] = useState(false);
 
   useEffect(() => {
@@ -27,7 +27,7 @@ export default function ExperienceDetailActions({
   }, []);
 
   const shareLink = `${origin}/for/${slug}`;
-  const displayLink = `barua.app/for/${slug}`;
+  const displayLink = `barua.me/for/${slug}`;
 
   const handleCopy = async () => {
     try {
