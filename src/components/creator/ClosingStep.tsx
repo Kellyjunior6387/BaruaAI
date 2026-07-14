@@ -34,7 +34,7 @@ export default function ClosingStep({ onContinue, onBack }: StepProps) {
               maxLength={300}
               value={state.closing_message}
               onChange={(e) => handleFieldChange(e.target.value)}
-              placeholder="Can't wait. And yes, biting privileges have been temporarily suspended until further notice."
+              placeholder="Can't wait to see your amazing smile"
               className="w-full min-h-[120px] border border-gray-200 rounded-lg px-3 py-2 pr-3 pb-8 focus:border-[#D4537E] focus:ring-0 outline-none transition-all text-sm text-gray-800 resize-none"
             />
             <span className="absolute bottom-2 right-3 text-[10px] text-gray-400 font-medium">

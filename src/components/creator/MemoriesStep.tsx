@@ -13,11 +13,10 @@ interface StepProps {
 }
 
 const placeholders = [
-  'Coast Trip',
-  'Brownie Business',
-  'Random Calls',
-  'Marathon Running',
-  'Inside joke',
+  'First memory',
+  'Second memory',
+  'Third Memory',
+  'Fourth memory',
 ];
 
 export default function MemoriesStep({ onContinue, onBack }: StepProps) {
@@ -36,7 +35,7 @@ export default function MemoriesStep({ onContinue, onBack }: StepProps) {
   return (
     <StepCard>
       <div className="space-y-1">
-        <h2 className="text-xl font-bold text-gray-900">Shared Memories</h2>
+        <h2 className="text-xl font-bold text-gray-900">Shared Memories <span className="text-sm font-normal text-gray-500">(OPTIONAL)</span></h2>
         <p className="text-xs text-gray-500">Add some key moments you shared together (min 2, max 5).</p>
       </div>
 
